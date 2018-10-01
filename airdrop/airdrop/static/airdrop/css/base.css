@@ -1,0 +1,31 @@
+* {
+    font-family: 'Lato', sans-serif;
+}
+
+body {
+    /*background-color:#8de0fc;*/
+}
+
+#header {
+    background-color:#ffffff;
+    border-bottom: 1px solid #cce4fd;
+}
+
+#content {
+    /*padding: 10px 0;*/
+    margin: 0 !important;
+}
+
+#content .container {
+    background-color:#ffffff;
+    border-left: solid 1px #cce4fd;
+    border-right: solid 1px #cce4fd;
+    margin-top: 5px !important;
+    margin-bottom: -10px !important;
+}
+
+#footer {
+    background-color:#ffffff;
+    border-top: 1px solid #cce4fd;
+    height: 100px;
+}

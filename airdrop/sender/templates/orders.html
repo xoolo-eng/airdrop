@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n staticfiles %}
+{% block styles %}
+{% endblock styles %}
+{% block orders %}
+<h1>
+    {{ title }}
+</h1>
+{% if orders %}
+    {% for order in all_orders %}
+        <p><a class="btn btn-primary" href="{% url 'view_order' order.address %}">{% trans 'Order #' %}{{ order.id }}</a></p>
+        <p>{% trans 'Address to order' %}: 0x{{ order.address }}</p>
+        <p>{% trans 'Address to smart contract' %}: 0x{{ order.contract }}</p>
+        <p>{% trans 'Date create' %}: {{ order.date_additions }}</p>
+        <p>{% trans 'Count recepient addresses' %}: {{ order.recipient_odrer.count }}</p>
+        <hr/>
+    {% endfor %}
+{% else %}
+    <p>{% trans 'No orders found' %}</p>
+{% endif %}
+{% endblock orders %}
+{% block scripts %}
+{% endblock scripts %}

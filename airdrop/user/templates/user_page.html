@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n staticfiles %}
+{% block styles %}
+{% endblock styles %}
+{% block user_page %}
+<h1>
+    {{ title }}
+</h1>
+<p>{{ user.login }}</p>
+<p>{{ user.date_registration }}</p>
+{% endblock user_page %}
+{% block scripts %}
+{% endblock scripts %} 

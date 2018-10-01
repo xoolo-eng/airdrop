@@ -1,0 +1,132 @@
+{% load i18n staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AIRDROP | {{title | default:"Home"}}</title>
+    <link rel="shortcut icon" href="{% static 'airdrop/images/favicon.png' %}">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'airdrop/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'airdrop/css/base.css' %}">
+    <script src="{% static 'airdrop/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'airdrop/js/jquery.cookie.js' %}"></script>
+    <script src="{% static 'airdrop/js/popper.min.js' %}"></script>
+    <script src="{% static 'airdrop/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'airdrop/js/base.js' %}"></script>
+    {% block styles %}
+    {% endblock styles %}
+</head>
+<body>
+    {% if messages %}
+    <div id="message_block" class="alert alert-primary" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <ul>
+            {% for message in messages %}
+            <li {% if message.tags %}class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <div id="header">
+        <div class="container">
+            {% block account %}
+            <div id="account">
+                <ul class="nav justify-content-end">
+                    {% if login %}
+                    <li  class="nav_item">
+                        <a class="nav-link" href="{% url 'user_signout' %}">{% trans "Sign out" %}</a>
+                    </li>
+                    {% else %}
+                    <li  class="nav_item">
+                        <a class="nav-link" href="{% url 'user_registration' %}">{% trans "Registration" %}</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% endblock account %}
+            {% block navigation %}
+            <div id="navigation">
+                <ul class="nav justify-content-end nav-tabs">
+                    <li class="nav_item">
+                        <a class="nav-link {{ home }}" href="{% url 'home' %}">{% trans "Home" %}</a>
+                    </li>
+                    {% if login %}
+                    <li class="nav_item">
+                        <a class="nav-link {{ sender }}" href="{% url 'load_data' %}">{% trans "Load csv" %}</a>
+                    </li>
+                    <li  class="nav_item">
+                        <a class="nav-link {{ account }}" href="{% url 'user_page' %}">{% trans "Account" %}</a>
+                    </li>
+                    <li  class="nav_item">
+                        <a class="nav-link {{ orders }}" href="{% url 'view_orders' 1 %}">{% trans "Orders" %}</a>
+                    </li>
+                    {% else %}
+                    <li  class="nav_item">
+                        <a class="nav-link {{ account }}" href="{% url 'user_signin' %}">{% trans "Sign in" %}</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% endblock navigation %}
+            {% block search %}
+            <div id="search">
+                <p>Search</p>
+            </div>
+            {% endblock search %}
+        </div>
+    </div>
+    <div id="content">
+        <div class="container">
+            {% block home %}{% endblock home %}
+            {% block registration %}{% endblock registration %}
+            {% block signin %}{% endblock signin %}
+            {% block load_data %}{% endblock load_data %}
+            {% block user_page %}{% endblock user_page %}
+            {% block orders %}{% endblock orders %}
+            {% block order %}{% endblock order %}
+
+            {%block num_pages%}
+            {% if pages %}
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if curent_page > 1 %}
+                    <li class="page-item"><a class="page-link" href="{% url 'view_orders' 1 %}"><<</a></li>
+                    <li class="page-item"><a class="page-link" href="{% url 'view_orders' curent_page|add:'-1' %}"><</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a class="page-link"><<</a></li>
+                    <li class="page-item disabled"><a class="page-link"><</a></li>
+                    {% endif %}
+
+                    {% for page in pages %}
+                    {% if page != curent_page %}
+                    <li class="page-item"><a class="page-link" href="{% url 'view_orders' page %}">{{ page }}</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a class="page-link">{{ page }}</a></li>
+                    {% endif %}
+                    {% endfor %}   
+
+                    {% if curent_page < pages|length %}
+                    <li class="page-item"><a class="page-link" href="{% url 'view_orders' curent_page|add:'1' %}">></a></li>
+                    <li class="page-item"><a class="page-link" href="{% url 'view_orders' pages|length %}">>></a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a class="page-link">></a></li>
+                    <li class="page-item disabled"><a class="page-link">>></a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+            {%endblock num_pages%}
+        </div>
+    </div>
+    {% block footer %}
+    <div id="footer" class="navbar-fixed-bottom row-fluid">
+        <div class="container">
+            <p>Footer</p>
+        </div>
+    </div>
+    {% endblock footer %}
+</body>
+{% block bottom_scripts %}
+{% endblock bottom_scripts %}
+</html>

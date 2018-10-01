@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n staticfiles %}
+{% block styles %}
+{% endblock styles %}
+{% block order %}
+<h1>
+    {{ title }}
+</h1>
+<p>{% trans 'Address to order' %}: 0x{{ order.address }}</p>
+<p>{% trans 'Address to smart contract' %}: 0x{{ order.contract }}</p>
+<p>{% trans 'Date create' %}: {{ order.date_additions }}</p>
+<p>{% trans 'Count recepient addresses' %}: {{ order.recipient_odrer.count }}</p>
+<p>{% trans 'Service cost' %}: {{ order.cost }} Wei</p>
+<p>{% trans 'Count all tokens' %}: {{ order.amount }}</p>
+<p id="payment">{% trans 'Payment for services' %}: {% if order.payment %}{% trans 'paid for' %}{% else %}{% trans 'unpaid' %}{% endif %}</p>
+<p id="tokens">{% trans 'Tokens for translation' %}: {% if order.tokens %}{% trans 'received' %}{% else %}{% trans 'not received' %}{% endif %}</p>
+<p>{% trans 'Status' %}: {% if order.status < 0 %}{% trans 'create' %}{% elif order.status > 0 %}{% trans 'finished' %}{% else %}{% trans 'in the work' %}{% endif %}</p>
+{%if order.status < 0 and order.payment and order.tokens %}
+<a class="btn page-link" href="{% url 'start_order' order.address %}">{% trans 'Start' %}</a>
+{% elif order.status > 0 %}
+<a class="btn page-link" href="{% url 'repeat_order' order.address %}">{% trans 'Repeat' %}</a>
+{% elif order.status == 0 %}
+<a class="btn page-link disabled">{% trans 'In processed' %}</a>
+{% else %}
+<a class="btn page-link disabled">{% trans 'No money!!!' %}</a>
+{% endif %}
+<a class="btn page-link" href="{% url 'download_order' order.address %}" download>{% trans 'Download addresses' %}</a>
+{% if back %}
+<a class="btn page-link" href="{{ back }}">{% trans 'Back' %}</a>
+{% else %}
+<a class="btn page-link" href="{% url 'view_orders' 1 %}">{% trans 'Back' %}</a>
+{% endif %}
+{% endblock order %}
+{% block bottom_scripts %}
+{% if order.status < 0%}
+<script type="text/javascript">
+var address="{{ order.address }}";
+var contract="{{ order.contract }}";
+var order_id={{ order.id }};
+var payment={{ order.payment|lower }};
+var tokens={{ order.tokens|lower }};
+</script>
+<script src="{% static 'sender/js/check_pyment.js' %}"></script>
+{% endif %}
+{% endblock bottom_scripts %}

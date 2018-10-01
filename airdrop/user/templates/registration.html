@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load i18n staticfiles %}
+{% block styles %}
+{% endblock styles %}
+{% block registration %}
+<h1>
+    {{ title }}
+</h1>
+<form action="" method="POST">
+    {% csrf_token %}
+    {% if form_registration.non_field_errors %}
+    <div class="alert alert-primary" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ form_registration.non_field_errors }}
+    </div>
+    {% endif %}
+    <div class="form-group">
+        {% if form_registration.email.errors %}
+        <div class="alert alert-primary" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ form_registration.email.errors }}
+        </div>
+        {% endif %}
+        <label>
+            {{ form_registration.email.label}}
+        </label>
+        {{ form_registration.email }}
+    </div>
+    <div class="form-group">
+        {% if form_registration.password.errors %}
+        <div class="alert alert-primary" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ form_registration.password.errors }}
+        </div>
+        {% endif %}
+        <label>
+            {{ form_registration.password.label}}
+        </label>
+        {{ form_registration.password }}
+    </div>
+    <div class="form-group">
+        {% if form_registration.password_repeat.errors %}
+        <div class="alert alert-primary" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ form_registration.password_repeat.errors }}
+        </div>
+        {% endif %}
+        <label>
+            {{ form_registration.password_repeat.label}}
+        </label>
+        {{ form_registration.password_repeat }}
+    </div>
+    <div class="form-group form-check">
+        {% if form_registration.agreement.errors %}
+        <div class="alert alert-primary" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ form_registration.agreement.errors }}
+        </div>
+        {% endif %}
+        {{ form_registration.agreement }}
+        <label>
+            {{ form_registration.agreement.label}}
+        </label>
+    </div>
+    <div class="form-group">
+        <input class="btn btn-primary" type="submit" name="submit" value="{% trans "Send" %}">
+    </div>
+</form>
+{% endblock registration %}
+{% block scripts %}
+{% endblock scripts %}
